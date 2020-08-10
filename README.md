@@ -28,6 +28,7 @@ When opening the site at its root, the user is prompted with a menu to Create/Jo
   "_id": "aecffc5725d97af67a85e97f",
   "host": "soleilyasmina",
   "code": "OXJF",
+  "password": "AFDFEX",
   "members": [
     { 
       "name": "soleilyasmina",
