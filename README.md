@@ -5,6 +5,7 @@
 - [Abstract](#abstract)
 - [Game Loop](#game-loop)
 - [Create / Join Room](#create--join-room)
+- [Starting a Game](#starting-a-game)
 
 ## Abstract
 [veryelite.club](veryelite.club) is a MERN stack game server, hosting a series of multiplayer games, with live updates via WebSockets.
