@@ -5,6 +5,19 @@ import './App.css';
 
 function App() {
   const [connection, setConnection] = useState(new WebSocket(`ws://127.0.0.1:${process.env.PORT || 3030}`));
+  const [user, updateUser] = useState(null);
+  const [room, updateRoom] = useState(null);
+
+  const handleReceive = (res) => {
+    switch (res.type) {
+      case 'createRoom':
+        updateRoom(res.data.room);
+        updateUser(res.data.user);
+        break;
+      default:
+        console.log('Data returned!');
+    }
+  }
 
   useEffect(() => {
     connection.onopen = (e) => {
@@ -20,7 +33,7 @@ function App() {
     };
 
     connection.onmessage = ({ data }) => {
-      console.log('%s received!', data);
+      handleReceive(JSON.parse(data));
     };
   }, [connection]);
 

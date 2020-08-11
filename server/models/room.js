@@ -6,7 +6,7 @@ const roomSchema = new Schema(
       type: String, required: true, minlength: 1, maxlength: 12,
     },
     code: {
-      type: String, required: true, minlength: 4, maxlength: 4,
+      type: String, required: true, minlength: 4, maxlength: 4, unique: true,
     },
     password: { type: String, minlength: 6, maxlength: 6 },
     members: [

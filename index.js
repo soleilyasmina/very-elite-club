@@ -21,7 +21,7 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-    guide(message, wss, ws);
+    guide(message, ws, wss);
   });
 });
 
