@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link, Route, Switch } from 'react-router-dom';
+import Home from './screens/Home';
 import './App.css';
 
 function App() {
   const [connection, setConnection] = useState(new WebSocket(`ws://127.0.0.1:${process.env.PORT || 3030}`));
-  const [chatMessages, setChatMessages] = useState([]); 
-  const [message, setMessage] = useState('');
 
   useEffect(() => {
     connection.onopen = (e) => {
@@ -20,26 +20,17 @@ function App() {
     };
 
     connection.onmessage = ({ data }) => {
-      setChatMessages((prevMessages) => [...prevMessages, data]);
+      console.log('%s received!', data);
     };
   }, [connection]);
 
-  const handleChange = (e) => {
-    setMessage(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    connection.send(message);
-    setMessage('');
-  }
-
   return (
     <div className="App">
-      { chatMessages.map((cm) => <h1>{cm}</h1>) }
-      <form onSubmit={handleSubmit}>
-        <input onChange={handleChange} value={message} />
-      </form>
+      <Switch>
+        <Route exact path="/">
+          <Home connection={connection} />
+        </Route>
+      </Switch>
     </div>
   );
 }
