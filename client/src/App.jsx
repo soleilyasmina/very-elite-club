@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import io from 'socket.io-client';
 import Home from './screens/Home';
+import Room from './screens/Room';
 import './App.css';
 
 function App() {
@@ -33,6 +34,12 @@ function App() {
       <Switch>
         <Route exact path="/">
           <Home socket={socket} />
+        </Route>
+        <Route path="/room/:room_id">
+          <Room 
+            room={room}
+            socket={socket}
+          />
         </Route>
       </Switch>
     </div>
