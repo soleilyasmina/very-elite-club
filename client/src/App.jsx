@@ -11,7 +11,8 @@ function App() {
   const [room, updateRoom] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(`ws://127.0.0.1:${process.env.PORT || 3030}`);
+    console.log(process.env.PORT);
+    const newSocket = io();
     newSocket.on('room created', (res) => {
       updateRoom(res);
       updateUser(res.members[0]);
