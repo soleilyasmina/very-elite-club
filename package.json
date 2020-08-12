@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "heroku-postbuild": "cd client && yarn install && npm run build && cd .."
   },
   "keywords": [],
   "author": "Soleil Solomon <mounlasolomon@gmail.com>",
