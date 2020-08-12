@@ -5,19 +5,15 @@ const JoinRoom = (props) => {
   const [code, updateCode] = useState('');
   const [password, updatePassword] = useState('');
 
-  const { connection } = props;
+  const { socket } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = {
-      type: 'joinRoom',
-      data: {
+    socket.emit('join room', {
         username,
         password,
         code,
-      },
-    };
-    connection.send(JSON.stringify(payload));
+    });
   };
 
   return (

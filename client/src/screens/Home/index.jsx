@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import CreateRoom from './CreateRoom';
+import JoinRoom from './JoinRoom';
 
 const Home = (props) => {
   const [isJoin, updateIsJoin] = useState(true);
-  const { connection } = props;
+  const { socket } = props;
 
   return (
     <section className="home">
@@ -15,8 +16,8 @@ const Home = (props) => {
       </button>
       {
         isJoin
-          ? null
-          : <CreateRoom connection={connection} />
+          ? <JoinRoom socket={socket} />
+          : <CreateRoom socket={socket} />
       }
     </section>
   );
