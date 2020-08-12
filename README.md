@@ -26,16 +26,19 @@ When opening the site at its root, the user is prompted with a menu to Create/Jo
 ```js
 {
   "_id": "aecffc5725d97af67a85e97f",
-  "host": "soleilyasmina",
   "code": "OXJF",
   "password": "AFDFEX",
   "members": [
     { 
-      "name": "soleilyasmina",
+      "name": "soleil",
+      "host": true,
+      "socketId": "6tDrYtGfQ8IiWKFUAAEz",
       "wins": 1
     },
     {
-      "name": "isonlymalaise",
+      "name": "friend",
+      "host": false,
+      "socketId": "CNFopGVE4MLPZGTZAAEy",
       "wins": 0
     }
   ]
@@ -65,8 +68,8 @@ When more than one player is in a room, a list of possible games are listed. A u
   "_id": "f636c0c46e58511b3c106a77",
   "winner": null,
   "players": [
-    "soleilyasmina",
-    "isonlymalaise"
+    "soleil",
+    "friend"
   ],
   "board": [
     "X",
