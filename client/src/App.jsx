@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import io from 'socket.io-client';
 import Home from './screens/Home';
 import Room from './screens/Room';
@@ -39,6 +39,7 @@ function App() {
           <Room 
             room={room}
             socket={socket}
+            user={user}
           />
         </Route>
       </Switch>
