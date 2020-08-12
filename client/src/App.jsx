@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import io from 'socket.io-client';
 import Home from './screens/Home';
 import Room from './screens/Room';
@@ -9,6 +9,7 @@ function App() {
   const [socket, setSocket] = useState(null);
   const [user, updateUser] = useState(null);
   const [room, updateRoom] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     console.log(process.env.PORT);
@@ -16,10 +17,12 @@ function App() {
     newSocket.on('room created', (res) => {
       updateRoom(res);
       updateUser(res.members[0]);
+      history.push(`/room/${res.code}`)
     });
     newSocket.on('room joined', (res) => {
       updateRoom(res);
       updateUser(res.members.find((m) => m.socketId === newSocket.id));
+      history.push(`/room/${res.code}`)
     });
     newSocket.on('room updated', (res) => {
       updateRoom(res);
@@ -36,7 +39,7 @@ function App() {
         <Route exact path="/">
           <Home socket={socket} />
         </Route>
-        <Route path="/room/:room_id">
+        <Route path="/room/:room_code">
           <Room 
             room={room}
             socket={socket}

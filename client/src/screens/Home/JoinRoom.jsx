@@ -29,14 +29,14 @@ const JoinRoom = (props) => {
       <input
         maxLength="4"
         name="code"
-        onChange={(e) => updateCode(e.target.value)}
+        onChange={(e) => updateCode(e.target.value.toUpperCase())}
         value={code}
       />
       <label htmlFor="password">password:</label>
       <input
         maxLength="6"
         name="password"
-        onChange={(e) => updatePassword(e.target.value)}
+        onChange={(e) => updatePassword(e.target.value.toUpperCase())}
         value={password}
       />
       <button type="submit">Let's Go!</button>
