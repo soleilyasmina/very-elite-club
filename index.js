@@ -3,6 +3,7 @@ const http = require('http');
 const path = require('path');
 
 require('./server/db');
+const control = require('./server/controllers');
 
 const PORT = process.env.PORT || 3030;
 
@@ -19,10 +20,10 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('Connection established!');
   socket.on('create room', (data) => {
-    console.log(data);
+    control.room.create(socket, data);
   });
   socket.on('join room', (data) => {
-    console.log(data);
+    control.room.join(socket, data);
   });
   socket.on('disconnect', () => {
     console.log(socket.id);

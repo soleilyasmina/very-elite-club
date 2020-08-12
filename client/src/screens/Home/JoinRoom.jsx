@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const JoinRoom = (props) => {
-  const [username, updateUsername] = useState('');
+  const [name, updateName] = useState('');
   const [code, updateCode] = useState('');
   const [password, updatePassword] = useState('');
 
@@ -10,33 +10,33 @@ const JoinRoom = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit('join room', {
-        username,
-        password,
-        code,
+      name,
+      password,
+      code,
     });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="username">username:</label>
-      <input 
+      <label htmlFor="name">name:</label>
+      <input
         maxLength="12"
-        name="username" 
-        onChange={(e) => updateUsername(e.target.value)}
-        value={username}
+        name="name"
+        onChange={(e) => updateName(e.target.value)}
+        value={name}
       />
       <label htmlFor="code">code:</label>
-      <input 
+      <input
         maxLength="4"
-        name="code" 
-        onChange={(e) => updateCode(e.target.value)} 
+        name="code"
+        onChange={(e) => updateCode(e.target.value)}
         value={code}
       />
       <label htmlFor="password">password:</label>
-      <input 
+      <input
         maxLength="6"
-        name="password" 
-        onChange={(e) => updatePassword(e.target.value)} 
+        name="password"
+        onChange={(e) => updatePassword(e.target.value)}
         value={password}
       />
       <button type="submit">Let's Go!</button>

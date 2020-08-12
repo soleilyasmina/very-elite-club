@@ -10,7 +10,22 @@ function App() {
   const [room, updateRoom] = useState(null);
 
   useEffect(() => {
-    setSocket(io(`ws://127.0.0.1:${process.env.PORT || 3030}`));
+    const newSocket = io(`ws://127.0.0.1:${process.env.PORT || 3030}`);
+    newSocket.on('room created', (res) => {
+      updateRoom(res);
+      updateUser(res.members[0]);
+    });
+    newSocket.on('room joined', (res) => {
+      updateRoom(res);
+      updateUser(res.members.find((m) => m.socketId === newSocket.id));
+    });
+    newSocket.on('room updated', (res) => {
+      updateRoom(res);
+    });
+    newSocket.on('error', (res) => {
+      console.log(res);
+    });
+    setSocket(newSocket);
   }, []);
 
   return (

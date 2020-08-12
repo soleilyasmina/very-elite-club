@@ -2,9 +2,6 @@ const { model, Schema } = require('mongoose');
 
 const roomSchema = new Schema(
   {
-    host: {
-      type: String, required: true, minlength: 1, maxlength: 12,
-    },
     code: {
       type: String, required: true, minlength: 4, maxlength: 4, unique: true,
     },
@@ -13,6 +10,8 @@ const roomSchema = new Schema(
       {
         name: { type: String, required: true },
         wins: { type: Number, default: 0 },
+        host: { type: Boolean, default: false },
+        socketId: { type: String, required: true },
       },
     ],
   },

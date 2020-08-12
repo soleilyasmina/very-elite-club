@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const CreateRoom = (props) => {
-  const [username, updateUsername] = useState('');
+  const [name, updateName] = useState('');
   const [isPrivate, updateIsPrivate] = useState(false);
   const { socket } = props;
 
@@ -9,18 +9,18 @@ const CreateRoom = (props) => {
     e.preventDefault();
     
     socket.emit('create room', {
-      username,
+      name,
       isPrivate,
     });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="username">username:</label>
+      <label htmlFor="name">name:</label>
       <input
-        name="username"
-        onChange={(e) => updateUsername(e.target.value)} maxLength="12"
-        value={username}
+        name="name"
+        onChange={(e) => updateName(e.target.value)} maxLength="12"
+        value={name}
       />
       <label htmlFor="isPrivate">private?</label>
       <input
