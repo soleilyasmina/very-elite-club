@@ -1,7 +1,14 @@
 import React from 'react';
+import { useParams, Redirect } from 'react-router-dom';
 
 const Room = (props) => {
   const { room, user } = props;
+  const { room_code } = useParams();
+  if (!room || room.code === room_code) {
+    return (
+      <Redirect to="/" />
+    )
+  }
   return (
     <div>
       <h2>Host: {room.members.find((mem) => mem.host === true).name}</h2>
