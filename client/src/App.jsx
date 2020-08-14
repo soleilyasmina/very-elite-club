@@ -14,10 +14,16 @@ function App() {
   useEffect(() => {
     history.push('/');
     const newSocket = io();
+    newSocket.on('room closed', (res) => {
+      console.log(res.message);
+      history.push('/');
+      updateRoom(null);
+      updateUser(null);
+    });
     newSocket.on('room created', (res) => {
       updateRoom(res);
       updateUser(res.members[0]);
-      history.push(`/room/${res.code}`)
+      history.push(`/room/${res.code}`);
     });
     newSocket.on('room joined', (res) => {
       updateRoom(res);
@@ -27,7 +33,12 @@ function App() {
     newSocket.on('room updated', (res) => {
       updateRoom(res);
     });
-    newSocket.on('error', (res) => {
+    newSocket.on('room closed', (res) => {
+      history.push('/');
+      updateRoom(null);
+      updateUser(null);
+    });
+    newSocket.on('server error', (res) => {
       console.log(res);
     });
     setSocket(newSocket);
@@ -40,7 +51,7 @@ function App() {
           <Home socket={socket} />
         </Route>
         <Route path="/room/:room_code">
-          <Room 
+          <Room
             room={room}
             socket={socket}
             user={user}

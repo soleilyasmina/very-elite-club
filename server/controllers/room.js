@@ -21,7 +21,6 @@ const create = async (socket, data) => {
   const room = await Room.create(roomInfo);
   socket.join(room.code);
   socket.emit('room created', room);
-  console.log(socket.rooms);
 };
 
 const join = async (socket, data) => {
@@ -54,7 +53,21 @@ const join = async (socket, data) => {
   });
 };
 
+const ttl = async (socket, data) => {
+  if (!data) return;
+  const { code } = data;
+  const rooms = await Room.find({ code });
+  console.log(rooms.length);
+  if (!rooms.length) {
+    socket.leave(code);
+    socket.emit('room closed', {
+      message: 'Room automatically closed after 6 hours.',
+    });
+  }
+};
+
 module.exports = {
   create,
   join,
+  ttl,
 };

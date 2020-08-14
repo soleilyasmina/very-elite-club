@@ -19,15 +19,10 @@ app.get('*', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('Connection established!');
-  socket.on('create room', (data) => {
-    control.room.create(socket, data);
-  });
-  socket.on('join room', (data) => {
-    control.room.join(socket, data);
-  });
-  socket.on('disconnect', () => {
-    console.log(socket.id);
-  });
+  socket.on('create room', (data) => control.room.create(socket, data));
+  socket.on('join room', (data) => control.room.join(socket, data));
+  socket.on('ttl room', (data) => control.room.ttl(socket, data));
+  socket.on('disconnect', () => console.log(socket.id));
 });
 
 server.listen(PORT, () => console.log(`Listening on port ${PORT}.`));

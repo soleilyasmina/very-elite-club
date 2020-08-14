@@ -20,6 +20,6 @@ const roomSchema = new Schema(
   },
 );
 
-roomSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 });
+roomSchema.index({ createdAt: 1 }, { expireAfterSeconds: 21600 });
 
 module.exports = model('rooms', roomSchema);
