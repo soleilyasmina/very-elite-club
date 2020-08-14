@@ -9,6 +9,7 @@ function App() {
   const [socket, setSocket] = useState(null);
   const [user, updateUser] = useState(null);
   const [room, updateRoom] = useState(null);
+  const [expires, updateExpires] = useState(null);
   const history = useHistory();
 
   useEffect(() => {
@@ -43,6 +44,15 @@ function App() {
     });
     setSocket(newSocket);
   }, []);
+
+  useEffect(() => {
+    clearInterval(expires);
+    if (room) {
+      updateExpires(setInterval(() => {
+        socket.emit('ttl room', room);
+      }, 60000));
+    }
+  }, [room]);
 
   return (
     <div className="App">
