@@ -12,7 +12,7 @@ function App() {
   const history = useHistory();
 
   useEffect(() => {
-    console.log(process.env.PORT);
+    history.push('/');
     const newSocket = io();
     newSocket.on('room created', (res) => {
       updateRoom(res);
