@@ -66,8 +66,26 @@ const ttl = async (socket, data) => {
   }
 };
 
+const message = async (socket, data) => {
+  if (!data) return;
+  const { code, content, name } = data;
+  const newMessage = {
+    name, content,
+  };
+  const room = await Room.findOne({ code });
+  await Room.findOneAndUpdate({ code }, { messages: [...room.messages, newMessage] }, { new: true }, (err, room) => {
+    if (err) {
+      socket.emit('message error', { error: err.message });
+      return;
+    }
+    socket.emit('room updated', room);
+    socket.to(code).emit('room updated', room);
+  });
+};
+
 module.exports = {
   create,
   join,
   ttl,
+  message,
 };

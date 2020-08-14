@@ -14,6 +14,13 @@ const roomSchema = new Schema(
         socketId: { type: String, required: true },
       },
     ],
+    messages: [
+      {
+        name: { type: String, required: true },
+        content: { type: String, required: true },
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   {
     timestamps: true,

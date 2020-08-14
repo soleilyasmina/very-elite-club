@@ -22,6 +22,7 @@ io.on('connection', (socket) => {
   socket.on('create room', (data) => control.room.create(socket, data));
   socket.on('join room', (data) => control.room.join(socket, data));
   socket.on('ttl room', (data) => control.room.ttl(socket, data));
+  socket.on('message', (data) => control.room.message(socket, data));
   socket.on('disconnect', () => console.log(socket.id));
 });
 
