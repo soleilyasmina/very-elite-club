@@ -21,6 +21,7 @@ const roomSchema = new Schema(
         createdAt: { type: Date, default: Date.now },
       },
     ],
+    typing: [{ type: String, default: [] }],
   },
   {
     timestamps: true,

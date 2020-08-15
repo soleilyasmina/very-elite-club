@@ -23,6 +23,8 @@ io.on('connection', (socket) => {
   socket.on('join room', (data) => control.room.join(socket, data));
   socket.on('ttl room', (data) => control.room.ttl(socket, data));
   socket.on('message', (data) => control.room.message(socket, data));
+  socket.on('start typing', (data) => control.room.startTyping(socket, data));
+  socket.on('stop typing', (data) => control.room.stopTyping(socket, data));
   socket.on('disconnect', () => console.log(socket.id));
 });
 

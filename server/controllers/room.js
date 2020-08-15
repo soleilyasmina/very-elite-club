@@ -14,6 +14,7 @@ const create = async (socket, data) => {
       socketId: socket.id,
       host: true,
     }],
+    typing: [],
   };
   if (data.isPrivate) {
     roomInfo.password = randomCode(6);
@@ -73,13 +74,44 @@ const message = async (socket, data) => {
     name, content,
   };
   const room = await Room.findOne({ code });
-  await Room.findOneAndUpdate({ code }, { messages: [...room.messages, newMessage] }, { new: true }, (err, room) => {
+  await Room.findOneAndUpdate({ code }, { 
+    messages: [...room.messages, newMessage],
+    typing: room.typing.filter((t) => t !== name),
+  }, { new: true }, (err, newRoom) => {
     if (err) {
       socket.emit('message error', { error: err.message });
       return;
     }
-    socket.emit('room updated', room);
-    socket.to(code).emit('room updated', room);
+    socket.emit('room updated', newRoom);
+    socket.to(code).emit('room updated', newRoom);
+  });
+};
+
+const startTyping = async (socket, data) => {
+  const { code, name } = data;
+  const room = await Room.findOne({ code });
+  await Room.findOneAndUpdate({ code }, { typing: [...room.typing, name] }, { new: true }, (err, newRoom) => {
+    if (err) {
+      socket.emit('server error', {
+        error: err.message,
+      });
+      return;
+    }
+    socket.to(code).emit('room updated', newRoom);
+  });
+};
+
+const stopTyping = async (socket, data) => {
+  const { code, name } = data;
+  const room = await Room.findOne({ code });
+  await Room.findOneAndUpdate({ code }, { typing: room.typing.filter((t) => t !== name) }, { new: true }, (err, newRoom) => {
+    if (err) {
+      socket.emit('server error', {
+        error: err.message,
+      });
+      return;
+    }
+    socket.to(code).emit('room updated', newRoom);
   });
 };
 
@@ -88,4 +120,6 @@ module.exports = {
   join,
   ttl,
   message,
+  startTyping,
+  stopTyping,
 };

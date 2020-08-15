@@ -4,6 +4,22 @@ const Chatbox = (props) => {
   const [content, updateContent] = useState('');
   const { socket, room, user } = props;
 
+  const handleTyping = (e) => {
+    const { value } = e.target;
+    if (value !== '' && content === '') {
+      socket.emit('start typing', {
+        code: room.code,
+        name: user.name,
+      });
+    } else if (value === '' && content !== '') {
+      socket.emit('stop typing', {
+        code: room.code,
+        name: user.name,
+      })
+    }
+    updateContent(value);
+  } 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit('message', {
@@ -12,7 +28,21 @@ const Chatbox = (props) => {
       name: user.name,
     });
     updateContent('');
-  }
+  };
+
+  const currentlyTyping = () => {
+    const notMe = room.typing.filter((t) => t !== user.name);
+    const [first, second, third] = notMe;
+    if (!first) {
+      return null;
+    } else if (!second) {
+      return `${first} is typing.`;
+    } else if (!third) {
+      return `${first} and ${second} are typing.`;
+    } else {
+      return 'Several people are typing.';
+    }
+  };
 
   return (
     <div>
@@ -23,9 +53,10 @@ const Chatbox = (props) => {
           </div>
         ))}
       </div>
+      {currentlyTyping()}
       <form onSubmit={handleSubmit}>
         <input
-          onChange={(e) => updateContent(e.target.value)}
+          onChange={handleTyping}
           value={content}
         />
         <button type="submit">send</button>
