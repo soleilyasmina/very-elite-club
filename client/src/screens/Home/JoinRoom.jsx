@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 
 const JoinRoom = (props) => {
-  const [name, updateName] = useState('');
-  const [code, updateCode] = useState('');
-  const [password, updatePassword] = useState('');
-
-  const { socket } = props;
+  const { code, name, password, socket, updateErrorMessage, updateCode, updateName, updatePassword } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit('join room', {
-      name,
-      password,
-      code,
-    });
+    if (!name) {
+      updateErrorMessage('No name provided!');
+    } else if (!code) {
+      updateErrorMessage('No code provided!');
+    } else if (code.length < 4) {
+      updateErrorMessage('Code too short!');
+    } else {
+      socket.emit('join room', {
+        name,
+        password,
+        code,
+      });
+    }
   };
 
   return (

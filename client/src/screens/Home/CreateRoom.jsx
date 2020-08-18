@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 
 const CreateRoom = (props) => {
-  const [name, updateName] = useState('');
-  const [isPrivate, updateIsPrivate] = useState(false);
-  const { socket } = props;
+  const { isPrivate, name, socket, updateErrorMessage, updateIsPrivate, updateName } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    socket.emit('create room', {
-      name,
-      isPrivate,
-    });
+    if (!name) {
+      updateErrorMessage('No name provided!');
+    } else {
+      socket.emit('create room', {
+        name,
+        isPrivate,
+      });
+    }
   };
 
   return (

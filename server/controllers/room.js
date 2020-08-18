@@ -13,6 +13,7 @@ const create = async (socket, data) => {
       name: data.name,
       socketId: socket.id,
       host: true,
+      connected: true,
     }],
     typing: [],
   };
@@ -39,9 +40,10 @@ const join = async (socket, data) => {
       host: false,
       socketId: socket.id,
       name: data.name,
+      connected: true,
     });
   } else {
-    members = members.map((m) => (m.name === name ? { ...m, socketId: socket.id } : m));
+    members = members.map((m) => (m.name === name ? { ...m, socketId: socket.id, connected: true } : m));
   }
   await Room.findOneAndUpdate({ code }, { members }, { new: true }, (err, updatedRoom) => {
     if (err) {
@@ -74,7 +76,7 @@ const message = async (socket, data) => {
     name, content,
   };
   const room = await Room.findOne({ code });
-  await Room.findOneAndUpdate({ code }, { 
+  await Room.findOneAndUpdate({ code }, {
     messages: [...room.messages, newMessage],
     typing: room.typing.filter((t) => t !== name),
   }, { new: true }, (err, newRoom) => {
@@ -115,6 +117,21 @@ const stopTyping = async (socket, data) => {
   });
 };
 
+const disconnect = async (socket) => {
+  const code = Object.keys(socket.rooms).find((room) => room.length === 4);
+  const room = await Room.findOne({ code }).lean();
+  const newMembers = room.members.map((mem) => (mem.socketId === socket.id ? { ...mem, connected: false } : mem));
+  await Room.findOneAndUpdate({ code }, { members: newMembers }, { new: true }, (err, newRoom) => {
+    if (err) {
+      socket.emit('server error', {
+        error: err.message,
+      });
+      return;
+    }
+    socket.to(code).emit('room updated', newRoom);
+  });
+};
+
 module.exports = {
   create,
   join,
@@ -122,4 +139,5 @@ module.exports = {
   message,
   startTyping,
   stopTyping,
+  disconnect,
 };

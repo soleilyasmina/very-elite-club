@@ -13,7 +13,7 @@ const Room = (props) => {
       {room.password && <h4>Password: {room.password}</h4>}
       <h5>{user.name}</h5>
       <ul>
-        {room.members.map((mem) => <li>{mem.name}</li>)}
+        {room.members.map((mem) => <li>{mem.name} {mem.connected ? '' : '(offline)'}</li>)}
       </ul>
       </div>
       <Chatbox {...props} />

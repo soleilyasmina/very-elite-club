@@ -12,6 +12,7 @@ const roomSchema = new Schema(
         wins: { type: Number, default: 0 },
         host: { type: Boolean, default: false },
         socketId: { type: String, required: true },
+        connected: { type: Boolean, default: true },
       },
     ],
     messages: [
