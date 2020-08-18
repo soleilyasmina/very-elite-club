@@ -121,7 +121,11 @@ const disconnect = async (socket) => {
   const code = Object.keys(socket.rooms).find((room) => room.length === 4);
   const room = await Room.findOne({ code }).lean();
   const newMembers = room.members.map((mem) => (mem.socketId === socket.id ? { ...mem, connected: false } : mem));
-  await Room.findOneAndUpdate({ code }, { members: newMembers }, { new: true }, (err, newRoom) => {
+  const { name } = room.members.find((mem) => mem.socketId === socket.id);
+  await Room.findOneAndUpdate({ code }, {
+    members: newMembers,
+    typing: room.typing.filter((t) => t !== name),
+  }, { new: true }, (err, newRoom) => {
     if (err) {
       socket.emit('server error', {
         error: err.message,
