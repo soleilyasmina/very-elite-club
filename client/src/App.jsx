@@ -55,7 +55,7 @@ function App() {
   }, [room]);
 
   return (
-    <div className="App">
+    <div className="app">
       <Switch>
         <Route exact path="/">
           <Home socket={socket} />

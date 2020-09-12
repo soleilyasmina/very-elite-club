@@ -23,12 +23,14 @@ const CreateRoom = (props) => {
         onChange={(e) => updateName(e.target.value)} maxLength="12"
         value={name}
       />
-      <label htmlFor="isPrivate">private?</label>
-      <input
-        type="checkbox"
-        checked={isPrivate}
-        onChange={() => updateIsPrivate(!isPrivate)}
-      />
+      <div className="create-private">
+        <label htmlFor="isPrivate">private?</label>
+        <input
+          type="checkbox"
+          checked={isPrivate}
+          onChange={() => updateIsPrivate(!isPrivate)}
+        />
+      </div>
       <button type="submit">Let's Go!</button>
     </form>
   )

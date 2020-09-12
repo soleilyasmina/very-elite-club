@@ -1,38 +1,158 @@
-.App {
+* {
+  font-family: "Ubuntu", monospace;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+  background: black;
+  font-family: "Ubuntu", monospace;
+  font-weight: 300;
+}
+
+.home,
+.room-info {
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+  width: 300px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  background: black;
+}
+
+.home p {
+  color: #4af626;
+}
+
+.home form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  color: #4af626;
+  justify-content: center;
+}
+
+.home button,
+.home form button,
+.home form input,
+.chatbox form input,
+.chatbox form button {
+  background: black;
+  color: #4af626;
+  border: 1px solid #4af626;
+}
+
+.home form button:focus,
+.home form input:focus,
+.chatbox form input:focus {
+  outline: 1px solid #46f121;
+}
+
+.home button:focus {
+  outline: 0px solid transparent;
+}
+
+.home-selected {
+  background: #4af626 !important;
+  color: black !important;
+}
+
+.create-private {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.create-private input[type=checkbox] {
+  background: #4AF626;
+}
+
+.room-info {
+  margin: 20px auto;
+  height: 150px;
+}
+
+.room-info * {
+  color: #4af626;
+}
+
+.room-info h2,
+.room-info h3,
+.room-info h5,
+.room-info ul {
+  margin: 0 auto;
+}
+
+.room-info ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.room-info ul li div {
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  display: inline;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.offline {
+  background-color: red;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.online {
+  background-color: #4af626;
+}
+
+.chatbox {
+  margin: 0 auto;
+  padding: 20px;
+  width: 50vw;
+  min-width: 280px;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  color: #4af626;
 }
 
-.App-link {
-  color: #61dafb;
+.chatbox-messages {
+  height: 200px;
+  border: 1px solid #4af626;
+  width: 50vw;
+  min-width: 280px;
+  margin: 20px auto;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.chatbox form {
+  margin: 20px auto;
+}
+
+.chatbox p {
+  margin: 0;
+}
+
+.chatbox-you {
+  font-weight: 500;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #010101;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4af626;
 }

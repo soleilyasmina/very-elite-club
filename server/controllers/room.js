@@ -42,6 +42,11 @@ const join = async (socket, data) => {
       name: data.name,
       connected: true,
     });
+  } else if (members.find((m) => m.name === name).connected) {
+    socket.emit('invalid join', {
+      message: 'bad',
+    });
+    return;
   } else {
     members = members.map((m) => (m.name === name ? { ...m, socketId: socket.id, connected: true } : m));
   }
@@ -60,7 +65,6 @@ const ttl = async (socket, data) => {
   if (!data) return;
   const { code } = data;
   const rooms = await Room.find({ code });
-  console.log(rooms.length);
   if (!rooms.length) {
     socket.leave(code);
     socket.emit('room closed', {
@@ -120,6 +124,7 @@ const stopTyping = async (socket, data) => {
 const disconnect = async (socket) => {
   const code = Object.keys(socket.rooms).find((room) => room.length === 4);
   const room = await Room.findOne({ code }).lean();
+  if (!room) return;
   const newMembers = room.members.map((mem) => (mem.socketId === socket.id ? { ...mem, connected: false } : mem));
   const { name } = room.members.find((mem) => mem.socketId === socket.id);
   await Room.findOneAndUpdate({ code }, {

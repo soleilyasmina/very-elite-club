@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 const Chatbox = (props) => {
   const [content, updateContent] = useState('');
+  const scrollbox = useRef();
+
   const { socket, room, user } = props;
+
+  useEffect(() => {
+    scrollbox.current.scrollTop = scrollbox.current.scrollHeight;
+  }, [room.messages]);
 
   const handleTyping = (e) => {
     const { value } = e.target;
@@ -45,11 +51,11 @@ const Chatbox = (props) => {
   };
 
   return (
-    <div>
-      <div>
+    <div className='chatbox'>
+      <div className='chatbox-messages'  ref={scrollbox}>
         {room.messages.map((msg) => (
           <div>
-            <h4><strong>{msg.name}</strong>: {msg.content}</h4>
+            <p className={msg.name === user.name && "chatbox-you"}><strong>{msg.name}</strong>: {msg.content}</p>
           </div>
         ))}
       </div>

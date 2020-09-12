@@ -13,13 +13,15 @@ const Home = (props) => {
 
   return (
     <section className="home">
-      <button onClick={() => updateIsJoin(true)}>
+      <div className="home-buttons">
+      <button className={isJoin && 'home-selected'} onClick={() => updateIsJoin(true)}>
         Join Room
       </button>
-      <button onClick={() => updateIsJoin(false)}>
+        <button className={!isJoin && 'home-selected'} onClick={() => updateIsJoin(false)}>
         Create Room
       </button>
-      <h4>{errorMessage}</h4>
+      </div>
+      {errorMessage && <p>{errorMessage}</p>}
       {
         isJoin
           ? <JoinRoom
