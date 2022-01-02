@@ -1,5 +1,7 @@
+import { useOutletContext } from "react-router-dom";
+
 const CreateRoom = (props: any) => {
-  const { isPrivate, name, socket, updateErrorMessage, updateIsPrivate, updateName } = props;
+  const { isPrivate, name, socket, updateErrorMessage, updateIsPrivate, updateName } = useOutletContext<any>();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();

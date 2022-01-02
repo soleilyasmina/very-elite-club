@@ -1,5 +1,7 @@
-const JoinRoom = (props: any) => {
-  const { code, name, password, socket, updateErrorMessage, updateCode, updateName, updatePassword } = props;
+import { useOutletContext } from "react-router-dom";
+
+const JoinRoom = () => {
+  const { code, name, password, socket, updateErrorMessage, updateCode, updateName, updatePassword } = useOutletContext<any>();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();

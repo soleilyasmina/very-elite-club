@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import Home from "screens/Home";
+import CreateRoom from "screens/Home/CreateRoom";
+import JoinRoom from "screens/Home/JoinRoom";
 import Lobby from "screens/Room";
 import {
   ClientToServerEvents,
@@ -64,7 +66,11 @@ function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<Home socket={socket} />} />
+        <Route path="/" element={<Home socket={socket} />}>
+          <Route index element={<JoinRoom />} />
+          <Route path="/join" element={<JoinRoom />}/>
+          <Route path="/create" element={<CreateRoom />} />
+        </Route>
         <Route path="room">
           <Route
             path=":room_code"

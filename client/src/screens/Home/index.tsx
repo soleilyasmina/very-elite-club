@@ -1,48 +1,49 @@
-import { useState } from 'react';
-import CreateRoom from './CreateRoom';
-import JoinRoom from './JoinRoom';
+import { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const Home = (props: any) => {
-  const [isJoin, updateIsJoin] = useState(true);
-  const [name, updateName] = useState('');
+  const [name, updateName] = useState("");
   const [isPrivate, updateIsPrivate] = useState(false);
-  const [code, updateCode] = useState('');
-  const [password, updatePassword] = useState('');
-  const [errorMessage, updateErrorMessage] = useState('');
+  const [code, updateCode] = useState("");
+  const [password, updatePassword] = useState("");
+  const [errorMessage, updateErrorMessage] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
   const { socket } = props;
+
+  const outletContext = {
+    code,
+    isPrivate,
+    name,
+    password,
+    socket,
+    updateCode,
+    updateErrorMessage,
+    updateName,
+    updatePassword,
+    updateIsPrivate,
+  }
+
+  const isJoin = location.pathname !== '/create';
 
   return (
     <section className="home">
       <div className="home-buttons">
-      <button className={isJoin ? 'home-selected' : ''} onClick={() => updateIsJoin(true)}>
-        Join Room
-      </button>
-        <button className={!isJoin ? 'home-selected' : ''} onClick={() => updateIsJoin(false)}>
-        Create Room
-      </button>
+        <button
+          className={isJoin ? "home-selected" : ""}
+          onClick={() => navigate("/join")}
+        >
+          Join Room
+        </button>
+        <button
+          className={!isJoin ? "home-selected" : ""}
+          onClick={() => navigate("/create")}
+        >
+          Create Room
+        </button>
       </div>
       {errorMessage && <p>{errorMessage}</p>}
-      {
-        isJoin
-          ? <JoinRoom
-            socket={socket}
-            code={code}
-            name={name}
-            password={password}
-            updateCode={updateCode}
-            updateErrorMessage={updateErrorMessage}
-            updateName={updateName}
-            updatePassword={updatePassword}
-          />
-          : <CreateRoom
-            socket={socket}
-            isPrivate={isPrivate}
-            name={name}
-            updateErrorMessage={updateErrorMessage}
-            updateIsPrivate={updateIsPrivate}
-            updateName={updateName}
-          />
-      }
+      <Outlet context={outletContext} />
     </section>
   );
 };
