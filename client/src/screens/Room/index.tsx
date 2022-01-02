@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { RoomMember } from 'types';
 import Chatbox from '../../components/shared/Chatbox';
 
-const Room = (props) => {
+const Room = (props: any) => {
   const { socket, room, user } = props;
 
   if (!room) return null;
 
-  const status = (mem) => {
+  const status = (mem: RoomMember) => {
     if (mem.host) {
       return '(host)';
     } else if (mem.name === user.name) {
@@ -21,7 +21,7 @@ const Room = (props) => {
         {room.password && <h4>Password: {room.password}</h4>}
         <h5>{user.name}</h5>
         <ul>
-          {room.members.map((mem) => (
+          {room.members.map((mem: RoomMember) => (
             <li>{mem.name} {status(mem)} <div className={mem.connected ? 'online' : 'offline'}></div></li>
           ))}
         </ul>

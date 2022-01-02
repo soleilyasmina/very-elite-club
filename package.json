@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "heroku-postbuild": "cd client && yarn install && npm run build && cd .."
+    "heroku-postbuild": "cd client && yarn install && npm run build && cd ..",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Soleil Solomon <mounlasolomon@gmail.com>",
@@ -21,8 +22,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "http": "^0.0.1-security",
-    "mongoose": "^5.9.28",
+    "mongoose": "^6.1.4",
     "path": "^0.12.7",
-    "socket.io": "^2.3.0"
+    "socket.io": "^4.4.0"
   }
 }

@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { RoomMessage } from "types";
 
-const Chatbox = (props) => {
+const Chatbox = (props: any) => {
   const [content, updateContent] = useState('');
-  const scrollbox = useRef();
+  const scrollbox = useRef<any>();
 
   const { socket, room, user } = props;
 
@@ -10,15 +11,15 @@ const Chatbox = (props) => {
     scrollbox.current.scrollTop = scrollbox.current.scrollHeight;
   }, [room.messages]);
 
-  const handleTyping = (e) => {
+  const handleTyping = (e: any) => {
     const { value } = e.target;
     if (value !== '' && content === '') {
-      socket.emit('start typing', {
+      socket.emit('roomStartTyping', {
         code: room.code,
         name: user.name,
       });
     } else if (value === '' && content !== '') {
-      socket.emit('stop typing', {
+      socket.emit('roomStopTyping', {
         code: room.code,
         name: user.name,
       })
@@ -26,9 +27,9 @@ const Chatbox = (props) => {
     updateContent(value);
   } 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    socket.emit('message', {
+    socket.emit('roomMessage', {
       code: room.code,
       content,
       name: user.name,
@@ -37,7 +38,7 @@ const Chatbox = (props) => {
   };
 
   const currentlyTyping = () => {
-    const notMe = room.typing.filter((t) => t !== user.name);
+    const notMe = room.typing.filter((t: string) => t !== user.name);
     const [first, second, third] = notMe;
     if (!first) {
       return null;
@@ -53,9 +54,9 @@ const Chatbox = (props) => {
   return (
     <div className='chatbox'>
       <div className='chatbox-messages'  ref={scrollbox}>
-        {room.messages.map((msg) => (
+        {room.messages.map((msg: RoomMessage) => (
           <div>
-            <p className={msg.name === user.name && "chatbox-you"}><strong>{msg.name}</strong>: {msg.content}</p>
+            <p className={msg.name === user.name ? "chatbox-you" : ""}><strong>{msg.name}</strong>: {msg.content}</p>
           </div>
         ))}
       </div>

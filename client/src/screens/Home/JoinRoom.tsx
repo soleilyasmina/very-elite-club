@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-
-const JoinRoom = (props) => {
+const JoinRoom = (props: any) => {
   const { code, name, password, socket, updateErrorMessage, updateCode, updateName, updatePassword } = props;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!name) {
       updateErrorMessage('No name provided!');
@@ -12,7 +10,7 @@ const JoinRoom = (props) => {
     } else if (code.length < 4) {
       updateErrorMessage('Code too short!');
     } else {
-      socket.emit('join room', {
+      socket.emit('roomJoin', {
         name,
         password,
         code,
@@ -24,21 +22,21 @@ const JoinRoom = (props) => {
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">name:</label>
       <input
-        maxLength="12"
+        maxLength={12}
         name="name"
         onChange={(e) => updateName(e.target.value)}
         value={name}
       />
       <label htmlFor="code">code:</label>
       <input
-        maxLength="4"
+        maxLength={4}
         name="code"
         onChange={(e) => updateCode(e.target.value.toUpperCase())}
         value={code}
       />
       <label htmlFor="password">password:</label>
       <input
-        maxLength="6"
+        maxLength={6}
         name="password"
         onChange={(e) => updatePassword(e.target.value.toUpperCase())}
         value={password}

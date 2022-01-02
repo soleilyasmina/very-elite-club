@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CreateRoom from './CreateRoom';
 import JoinRoom from './JoinRoom';
 
-const Home = (props) => {
+const Home = (props: any) => {
   const [isJoin, updateIsJoin] = useState(true);
   const [name, updateName] = useState('');
   const [isPrivate, updateIsPrivate] = useState(false);
@@ -14,10 +14,10 @@ const Home = (props) => {
   return (
     <section className="home">
       <div className="home-buttons">
-      <button className={isJoin && 'home-selected'} onClick={() => updateIsJoin(true)}>
+      <button className={isJoin ? 'home-selected' : ''} onClick={() => updateIsJoin(true)}>
         Join Room
       </button>
-        <button className={!isJoin && 'home-selected'} onClick={() => updateIsJoin(false)}>
+        <button className={!isJoin ? 'home-selected' : ''} onClick={() => updateIsJoin(false)}>
         Create Room
       </button>
       </div>

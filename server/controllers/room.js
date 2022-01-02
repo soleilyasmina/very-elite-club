@@ -22,14 +22,14 @@ const create = async (socket, data) => {
   }
   const room = await Room.create(roomInfo);
   socket.join(room.code);
-  socket.emit('room created', room);
+  socket.emit('roomCreated', room);
 };
 
 const join = async (socket, data) => {
   const { code, password, name } = data;
   const [room] = await Room.find({ code }).lean();
   if (!room || (room.password && room.password !== password)) {
-    socket.emit('error message', {
+    socket.emit('serverError', {
       message: 'No room found!',
     });
     return;
@@ -43,19 +43,19 @@ const join = async (socket, data) => {
       connected: true,
     });
   } else if (members.find((m) => m.name === name).connected) {
-    socket.emit('invalid join', {
+    socket.emit('invalidJoin', {
       message: 'bad',
     });
     return;
   } else {
     members = members.map((m) => (m.name === name ? { ...m, socketId: socket.id, connected: true } : m));
   }
-  await Room.findOneAndUpdate({ code }, { members }, { new: true }, (err, updatedRoom) => {
+  Room.findOneAndUpdate({ code }, { members }, { new: true }, (err, updatedRoom) => {
     if (err) {
       socket.emit('error', err);
     } else {
-      socket.emit('room joined', updatedRoom);
-      socket.to(code).emit('room updated', updatedRoom);
+      socket.emit('roomJoined', updatedRoom);
+      socket.to(code).emit('roomUpdated', updatedRoom);
       socket.join(code);
     }
   });
@@ -67,7 +67,7 @@ const ttl = async (socket, data) => {
   const rooms = await Room.find({ code });
   if (!rooms.length) {
     socket.leave(code);
-    socket.emit('room closed', {
+    socket.emit('roomClosed', {
       message: 'Room automatically closed after 6 hours.',
     });
   }
@@ -80,44 +80,44 @@ const message = async (socket, data) => {
     name, content,
   };
   const room = await Room.findOne({ code });
-  await Room.findOneAndUpdate({ code }, {
+  Room.findOneAndUpdate({ code }, {
     messages: [...room.messages, newMessage],
     typing: room.typing.filter((t) => t !== name),
   }, { new: true }, (err, newRoom) => {
     if (err) {
-      socket.emit('message error', { error: err.message });
+      socket.emit('messageError', { error: err.message });
       return;
     }
-    socket.emit('room updated', newRoom);
-    socket.to(code).emit('room updated', newRoom);
+    socket.emit('roomUpdated', newRoom);
+    socket.to(code).emit('roomUpdated', newRoom);
   });
 };
 
 const startTyping = async (socket, data) => {
   const { code, name } = data;
   const room = await Room.findOne({ code });
-  await Room.findOneAndUpdate({ code }, { typing: [...room.typing, name] }, { new: true }, (err, newRoom) => {
+  Room.findOneAndUpdate({ code }, { typing: [...room.typing, name] }, { new: true }, (err, newRoom) => {
     if (err) {
-      socket.emit('server error', {
+      socket.emit('serverError', {
         error: err.message,
       });
       return;
     }
-    socket.to(code).emit('room updated', newRoom);
+    socket.to(code).emit('roomUpdated', newRoom);
   });
 };
 
 const stopTyping = async (socket, data) => {
   const { code, name } = data;
   const room = await Room.findOne({ code });
-  await Room.findOneAndUpdate({ code }, { typing: room.typing.filter((t) => t !== name) }, { new: true }, (err, newRoom) => {
+  Room.findOneAndUpdate({ code }, { typing: room.typing.filter((t) => t !== name) }, { new: true }, (err, newRoom) => {
     if (err) {
-      socket.emit('server error', {
+      socket.emit('serverError', {
         error: err.message,
       });
       return;
     }
-    socket.to(code).emit('room updated', newRoom);
+    socket.to(code).emit('roomUpdated', newRoom);
   });
 };
 
@@ -127,17 +127,17 @@ const disconnect = async (socket) => {
   if (!room) return;
   const newMembers = room.members.map((mem) => (mem.socketId === socket.id ? { ...mem, connected: false } : mem));
   const { name } = room.members.find((mem) => mem.socketId === socket.id);
-  await Room.findOneAndUpdate({ code }, {
+  Room.findOneAndUpdate({ code }, {
     members: newMembers,
     typing: room.typing.filter((t) => t !== name),
   }, { new: true }, (err, newRoom) => {
     if (err) {
-      socket.emit('server error', {
+      socket.emit('serverError', {
         error: err.message,
       });
       return;
     }
-    socket.to(code).emit('room updated', newRoom);
+    socket.to(code).emit('roomUpdated', newRoom);
   });
 };
 

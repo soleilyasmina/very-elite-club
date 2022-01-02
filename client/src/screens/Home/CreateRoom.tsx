@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-
-const CreateRoom = (props) => {
+const CreateRoom = (props: any) => {
   const { isPrivate, name, socket, updateErrorMessage, updateIsPrivate, updateName } = props;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!name) {
       updateErrorMessage('No name provided!');
+      setTimeout(() => updateErrorMessage(''), 3000);
     } else {
-      socket.emit('create room', {
+      socket.emit('roomCreate', {
         name,
         isPrivate,
       });
@@ -20,7 +19,7 @@ const CreateRoom = (props) => {
       <label htmlFor="name">name:</label>
       <input
         name="name"
-        onChange={(e) => updateName(e.target.value)} maxLength="12"
+        onChange={(e) => updateName(e.target.value)} maxLength={12}
         value={name}
       />
       <div className="create-private">
