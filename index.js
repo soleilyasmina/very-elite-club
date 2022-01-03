@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
   socket.on('roomMessage', (data) => control.room.message(socket, data));
   socket.on('roomStartTyping', (data) => control.room.startTyping(socket, data));
   socket.on('roomStopTyping', (data) => control.room.stopTyping(socket, data));
-  socket.on('disconnect', () => control.room.disconnect(socket));
+  socket.on('disconnecting', (reason) => control.room.disconnect(socket, reason));
 });
 
 server.listen(PORT, () => console.log(`Listening on port ${PORT}.`));

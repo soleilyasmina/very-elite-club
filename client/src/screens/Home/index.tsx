@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 
 const Home = (props: any) => {
   const [name, updateName] = useState("");
   const [isPrivate, updateIsPrivate] = useState(false);
-  const [code, updateCode] = useState("");
+  const params = useParams();
+  const [code, updateCode] = useState(params.inviteCode || "");
   const [password, updatePassword] = useState("");
   const [errorMessage, updateErrorMessage] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  
   const { socket } = props;
 
   const outletContext = {
@@ -28,6 +30,7 @@ const Home = (props: any) => {
 
   return (
     <section className="home">
+      <h1>veryelite.club</h1>
       <div className="home-buttons">
         <button
           className={isJoin ? "home-selected" : ""}

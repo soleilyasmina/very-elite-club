@@ -122,9 +122,10 @@ const stopTyping = async (socket, data) => {
 };
 
 const disconnect = async (socket) => {
-  const code = Object.keys(socket.rooms).find((room) => room.length === 4);
+  const code = Array.from(socket.rooms).find((room) => room.length === 4);
   const room = await Room.findOne({ code }).lean();
   if (!room) return;
+  console.log(room, socket.id);
   const newMembers = room.members.map((mem) => (mem.socketId === socket.id ? { ...mem, connected: false } : mem));
   const { name } = room.members.find((mem) => mem.socketId === socket.id);
   Room.findOneAndUpdate({ code }, {

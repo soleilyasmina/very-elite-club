@@ -2,14 +2,21 @@
   font-family: "Ubuntu", monospace;
 }
 
-.app {
-  display: flex;
-  flex-direction: column;
+body {
   min-height: 100vh;
+  background: black;
+}
+
+h1 {
+  color: #4af626
+}
+
+.app {
   justify-content: center;
   background: black;
   font-family: "Ubuntu", monospace;
   font-weight: 300;
+  padding: 20px 0;
 }
 
 .home,
@@ -37,6 +44,8 @@
 }
 
 .home button,
+.invite button,
+.invite input,
 .home form button,
 .home form input,
 .chatbox form input,
@@ -44,6 +53,7 @@
   background: black;
   color: #4af626;
   border: 1px solid #4af626;
+  cursor: pointer;
 }
 
 .home form button:focus,
@@ -102,11 +112,15 @@
 }
 
 .offline {
-  background-color: red;
+  color: red;
+  height: 5px;
+  width: 5px;
 }
 
 .online {
-  background-color: #4af626;
+  color: #4af626;
+  height: 30px;
+  width: 5px;
 }
 
 .chatbox {
@@ -125,8 +139,10 @@
 .chatbox-messages {
   height: 200px;
   border: 1px solid #4af626;
-  width: 50vw;
+  display: block;
   min-width: 280px;
+  width: 50vw;
+  max-width: 700px;
   margin: 20px auto;
   padding: 10px;
   box-sizing: border-box;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import Home from "screens/Home";
 import CreateRoom from "screens/Home/CreateRoom";
@@ -21,6 +21,7 @@ function App() {
   const [room, updateRoom] = useState<Room | null>(null);
   const [expires, updateExpires] = useState<NodeJS.Timeout | any>(null);
   const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
     navigate("/");
@@ -49,6 +50,11 @@ function App() {
     newSocket.on("serverError", (res) => {
       console.log(res);
     });
+    newSocket.on("disconnect", (reason) => {
+      if (reason === "io server disconnect") {
+        newSocket.connect();
+      }
+    })
     setSocket(newSocket);
   }, []);
 
@@ -68,8 +74,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home socket={socket} />}>
           <Route index element={<JoinRoom />} />
-          <Route path="/join" element={<JoinRoom />}/>
-          <Route path="/create" element={<CreateRoom />} />
+          <Route path="join" element={<JoinRoom />}/>
+          <Route path="join/:inviteCode" element={<JoinRoom />}/>
+          <Route path="create" element={<CreateRoom />} />
         </Route>
         <Route path="room">
           <Route
