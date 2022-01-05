@@ -2,13 +2,14 @@
   "name": "very-elite-club",
   "version": "1.0.0",
   "description": "A game server using the MERN stack and WebSockets.",
-  "main": "./index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.ts",
-    "dev": "nodemon index.ts",
+    "start": "tsc && node .",
+    "dev": "tsc && nodemon .",
     "heroku-postbuild": "cd client && yarn install && npm run build && cd ..",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Soleil Solomon <mounlasolomon@gmail.com>",
