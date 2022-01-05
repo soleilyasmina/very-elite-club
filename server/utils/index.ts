@@ -1,4 +1,4 @@
-const randomCode = (length) => {
+export const randomCode = (length: number) => {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let code = '';
   for (let i = 0; i < length; i += 1) {
@@ -7,6 +7,6 @@ const randomCode = (length) => {
   return code;
 };
 
-module.exports = {
+export default {
   randomCode,
 };
