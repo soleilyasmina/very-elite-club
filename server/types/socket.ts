@@ -11,9 +11,10 @@ export interface ClientToServerEvents {
 }
 
 export interface ServerToClientEvents {
-  roomClosed: () => void;
-  roomCreated: () => void;
-  roomJoined: () => void;
-  roomUpdated: () => void;
-  serverError: () => void;
+  roomClosed: (res: any) => void;
+  roomCreated: (res: Room) => void;
+  roomJoined: (res: Room) => void;
+  roomUpdated: (res: Room) => void;
+  serverError: (res: string) => void;
+  disconnect: (reason: string) => void;
 }

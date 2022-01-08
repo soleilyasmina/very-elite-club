@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { AppContext } from "context";
+import { getLocalStorage } from "utils/localStorage";
 
 const Home = (props: any) => {
-  const [name, updateName] = useState("");
+  const { socket } = useContext(AppContext);
+  const localStorageData = getLocalStorage()
+  const [name, updateName] = useState(localStorageData?.name || "");
   const [isPrivate, updateIsPrivate] = useState(false);
   const params = useParams();
-  const [code, updateCode] = useState(params.inviteCode || "");
+  const [code, updateCode] = useState(params.inviteCode || localStorageData?.code || "");
   const [password, updatePassword] = useState("");
   const [errorMessage, updateErrorMessage] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  
-  const { socket } = props;
 
   const outletContext = {
     code,

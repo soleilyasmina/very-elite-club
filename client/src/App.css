@@ -23,8 +23,6 @@ h1 {
 .room-info {
   display: flex;
   flex-direction: column;
-  height: 250px;
-  width: 300px;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
@@ -94,7 +92,7 @@ h1 {
 .room-info h3,
 .room-info h5,
 .room-info ul {
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 .room-info ul {
@@ -171,4 +169,33 @@ h1 {
 
 ::-webkit-scrollbar-thumb {
   background: #4af626;
+}
+
+.chatbox-with-members {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.chatbox-with-members ul {
+  margin-top: 40px;
+  border: 1px solid #4af626;
+  overflow-x: scroll;
+  position: relative;
+  padding-top: 28px;
+}
+
+.chatbox-with-members ul em {
+  position: absolute;
+  width: 100%;
+  padding: 4px 0;
+  background: black;
+  top: 0;
+  left: 0;
+}
+
+.chatbox-with-members ul li {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-left: 4px;
 }

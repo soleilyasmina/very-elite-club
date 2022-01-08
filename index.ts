@@ -13,10 +13,10 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(server);
 
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
 
 io.on("connection", (socket) => {
@@ -29,9 +29,10 @@ io.on("connection", (socket) => {
     control.room.startTyping(socket, data)
   );
   socket.on("roomStopTyping", (data) => control.room.stopTyping(socket, data));
-  socket.on("disconnecting", () =>
-    control.room.disconnect(socket)
-  );
+  socket.on("disconnecting", () => control.room.disconnect(socket));
+  socket.on("disconnect", () => {
+    control.room.disconnect(socket);
+  });
 });
 
 server.listen(PORT, () => console.log(`Listening on port ${PORT}.`));
