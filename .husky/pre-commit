@@ -1,0 +1,13 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+SERVICES=(
+  api
+  client
+)
+for SERVICE in "${REPOS[@]}"
+do
+  if [[ ! -z "$(git status | grep $SERVICE/)"]]
+  echo "Creating sample build for $SERVICE."
+  yarn --cwd ./$SERVICE run build
+done
