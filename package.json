@@ -1,35 +1,24 @@
 {
   "name": "very-elite-club",
   "version": "1.0.0",
-  "description": "A game server using the MERN stack and WebSockets.",
-  "main": "dist/index.js",
+  "description": "## TL:DR of Contents",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node .",
-    "dev": "tsc && nodemon .",
-    "heroku-postbuild": "cd client && yarn install && npm run build && cd ..",
-    "prepare": "husky install",
-    "build": "tsc"
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soleilyasmina/very-elite-club.git"
   },
   "keywords": [],
-  "author": "Soleil Solomon <mounlasolomon@gmail.com>",
+  "author": "soleilyasmina <mounlasolomon@gmail.com>",
   "license": "ISC",
-  "devDependencies": {
-    "@types/express": "^4.17.13",
-    "eslint": "7.2.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.21.2",
-    "husky": "^7.0.4",
-    "nodemon": "^2.0.4",
-    "typescript": "^4.5.4"
+  "bugs": {
+    "url": "https://github.com/soleilyasmina/very-elite-club/issues"
   },
-  "dependencies": {
-    "@commitlint/cli": "^16.0.1",
-    "@commitlint/config-conventional": "^16.0.0",
-    "express": "^4.17.1",
-    "http": "^0.0.1-security",
-    "mongoose": "^6.1.4",
-    "path": "^0.12.7",
-    "socket.io": "^4.4.0"
+  "homepage": "https://github.com/soleilyasmina/very-elite-club#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "husky": "^7.0.4"
   }
 }

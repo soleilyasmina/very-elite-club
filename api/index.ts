@@ -1,11 +1,11 @@
 import express from "express";
 import http from "http";
-import path from "path";
+// import path from "path";
 import { Server } from "socket.io";
 
-import "./server/db";
-import control from "./server/controllers";
-import { ClientToServerEvents, ServerToClientEvents } from "./server/types";
+import "./db";
+import control from "./controllers";
+import { ClientToServerEvents, ServerToClientEvents } from "./types";
 
 const PORT = process.env.PORT || 3030;
 
@@ -13,11 +13,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(server);
 
-app.use(express.static(path.join(__dirname, "../client/build")));
+// app.use(express.static(path.join(__dirname, "../client/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+// });
 
 io.on("connection", (socket) => {
   console.log("Connection established!");
