@@ -19,6 +19,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents>(server);
 //   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 // });
 
+// TODO: convert to helper function / command determiner
 io.on("connection", (socket) => {
   console.log("Connection established!");
   socket.on("roomCreate", (data) => control.room.create(socket, data));

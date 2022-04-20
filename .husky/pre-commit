@@ -5,9 +5,11 @@ SERVICES=(
   api
   client
 )
-for SERVICE in "${REPOS[@]}"
+for SERVICE in "${SERVICES[@]}"
 do
-  if [[ ! -z "$(git status | grep $SERVICE/)"]]
-  echo "Creating sample build for $SERVICE."
-  yarn --cwd ./$SERVICE run build
+  if [[ ! -z "$(git status | grep $SERVICE/)" ]]
+  then
+    echo "Changes found in $SERVICE. Creating sample build."
+    yarn --cwd ./$SERVICE run build
+  fi
 done
